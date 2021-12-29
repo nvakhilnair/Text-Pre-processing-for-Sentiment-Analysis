@@ -12,9 +12,9 @@ import pandas as pd
 #spell = Speller(lang='en')
 ps = nltk.stem.PorterStemmer()
 
-apostrophe_data = pd.read_csv('./static/data/apostrophe.csv')
-slangs_data = pd.read_csv('./static/data/slangs.csv')
-with open("./static/data/stopwords.txt",'r') as sw:
+apostrophe_data = pd.read_csv('static/data/apostrophe.csv')
+slangs_data = pd.read_csv('static/data/slangs.csv')
+with open("static/data/stopwords.txt",'r') as sw:
     stop_words = sw.read()
 stopWords = stop_words.split("\n")
 apostrophes = dict(zip(apostrophe_data.Contractions, apostrophe_data.Without))
