@@ -1,7 +1,7 @@
 asgiref==3.4.1
 backports.zoneinfo==0.2.1
 click==8.0.3
-Django==4.0
+Django==4.0.4
 djangorestframework==3.13.1
 joblib==1.1.0
 nltk==3.6.7
