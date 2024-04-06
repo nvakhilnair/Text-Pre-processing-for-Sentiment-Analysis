@@ -41,6 +41,28 @@ To start the application, you can use the provided batch (.bat) or shell (.sh) f
 
 Ensure that you have installed the required dependencies mentioned in `requirements.txt` before starting the application.
 
+## Usage
+
+To utilize the text processing API provided by this project, you can send a `GET` request to the `/process_text` endpoint. Below is an example `curl` command demonstrating how to use the endpoint:
+
+### using curl
+```
+curl 'http://127.0.0.1:8000/process_text/?input_text=Hello%20my%20name%20is%20akhil&autocorrector=false
+```
+
+### using python
+
+```
+import requests
+
+url = 'http://127.0.0.1:8000/process_text/'
+params = {
+    'input_text': 'Hello my name is akhil',
+    'autocorrector': 'false'
+}
+response = requests.get(url, params=params)
+```
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
