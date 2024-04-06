@@ -1,2 +1,3 @@
 test/
 /db.sqlite3
+.venv/
