@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NLP Text Cleaner</title>
+    <style>
+        /* CSS styles can go here */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .input-area {
+            margin-bottom: 20px;
+        }
+        .input-area textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        .clean-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        .clean-button:hover {
+            background-color: #0056b3;
+        }
+        .output-area {
+            margin-top: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NLP Text Cleaner</h1>
+        <div class="input-area">
+            <label for="input-text">Input Text:</label>
+            <textarea id="input-text" placeholder="Enter text to clean..." rows="6"></textarea>
+        </div>
+        <label for="autocorrector-checkbox">Autocorrector:</label>
+        <input type="checkbox" id="autocorrector-checkbox">
+        <button class="clean-button" onclick="cleanText()">Clean Text</button>
+        <div class="output-area">
+            <p><strong>Cleaned Text:</strong></p>
+            <div id="cleaned-text"></div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for cleaning text
+        function cleanText() {
+            var inputText = document.getElementById('input-text').value;
+            var autocorrectorEnabled = document.getElementById('autocorrector-checkbox').checked;
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'process_text/?input_text=' + encodeURIComponent(inputText) + '&autocorrector=' + autocorrectorEnabled);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    document.getElementById('cleaned-text').innerText = response.cleaned_text;
+                }
+            };
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

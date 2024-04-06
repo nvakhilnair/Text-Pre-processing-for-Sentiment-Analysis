@@ -1,0 +1,1 @@
+uvicorn app:app --host 127.0.0.1 --port 8000 --workers 1 --no-proxy-headers --limit-concurrency 5 --backlog 5 --host 127.0.0.1 --port 8000 --workers 1 --no-proxy-headers --limit-concurrency 5 --backlog 5 --timeout-graceful-shutdown 30
