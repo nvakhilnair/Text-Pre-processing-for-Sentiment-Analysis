@@ -1,6 +1,6 @@
 # FastAPI Text Processing API
 
-This FastAPI project provides an endpoint to process and clean uncleaned text data for NLP applications.
+This FastAPI project provides an endpoint to process and clean uncleaned text data for NLP applications. Also option for auto spelling corrector is present which is optional query parameter
 
 ## Endpoint
 
