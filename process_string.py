@@ -6,7 +6,26 @@ from textblob import TextBlob
 
 
 class ProcessText:
+    """
+    A class to process and clean uncleaned text data.
+
+    Attributes:
+        apostrophe_mapping (dict): A dictionary containing mappings for apostrophes.
+        slang_mapping (dict): A dictionary containing mappings for slangs.
+        stopwords_list (list): A list containing stopwords.
+        html_tags_regex (re.Pattern): A compiled regex pattern to match HTML tags.
+        urls_regex (re.Pattern): A compiled regex pattern to match URLs.
+        emoji_regex (re.Pattern): A compiled regex pattern to match emojis.
+        punctuation_regex (re.Pattern): A compiled regex pattern to match punctuation.
+        split_attached_regex (re.Pattern): A compiled regex pattern to split attached words.
+        interjections (list): A list containing interjections.
+        whitespace_regex (re.Pattern): A compiled regex pattern to match whitespace.
+    """
+
     def __init__(self) -> None:
+        """
+        Initialize ProcessText class.
+        """
         self.apostrophe_mapping = self.load_json_file("apostrophe.json")
         self.slang_mapping = self.load_json_file("slangs.json")
         self.stopwords_list = self.load_json_file("stopwords.json").get("stopword", {})
@@ -24,6 +43,16 @@ class ProcessText:
         self.whitespace_regex = re.compile(r"\s+")
 
     async def clean_text(self, uncleaned_text, auto_corrector):
+        """
+        Clean uncleaned text data.
+
+        Args:
+            uncleaned_text (str): The uncleaned text data to be cleaned.
+            auto_corrector (bool): Whether to apply spelling correction or not.
+
+        Returns:
+            str: The cleaned text data.
+        """
 
         # Convert to lowercase
         uncleaned_text = uncleaned_text.lower()
@@ -31,10 +60,10 @@ class ProcessText:
         # Remove HTML tags
         uncleaned_text = self.html_tags_regex.sub(r"", uncleaned_text)
 
-        # Removing URLS
+        # Removing URLs
         uncleaned_text = self.urls_regex.sub(r"", uncleaned_text)
 
-        # Removing emoji's
+        # Removing emojis
         uncleaned_text = self.emoji_regex.sub(r"", uncleaned_text)
 
         # Removing punctuation
@@ -43,7 +72,7 @@ class ProcessText:
         # Split attached words
         uncleaned_text = " ".join(self.split_attached_regex.findall(uncleaned_text))
 
-        # Replace apostrophe with the respective mapping
+        # Replace apostrophes with the respective mapping
         uncleaned_words = uncleaned_text.split(" ")
         uncleaned_text = " ".join(
             [
@@ -65,18 +94,18 @@ class ProcessText:
             ]
         )
 
-        # standardizing words by 2 words
+        # Standardize words by 2 words
         uncleaned_text = "".join(
             "".join(s)[:2] for _, s in itertools.groupby(uncleaned_text)
         )
 
-        # Remove interjunctions
+        # Remove interjections
         uncleaned_words = uncleaned_text.split(" ")
         uncleaned_text = " ".join(
             [word for word in uncleaned_words if word not in self.interjections]
         )
 
-        # Removing Stopwords
+        # Removing stopwords
         uncleaned_words = uncleaned_text.split(" ")
         uncleaned_text = " ".join(
             [word for word in uncleaned_words if word not in self.stopwords_list]
@@ -84,15 +113,24 @@ class ProcessText:
 
         # Spelling corrector
         if auto_corrector:
-            text = str(TextBlob(uncleaned_text).correct())
+            uncleaned_text = str(TextBlob(uncleaned_text).correct())
 
-        # Removing whitspaces
+        # Removing whitespace
         uncleaned_text = self.whitespace_regex.sub(r" ", uncleaned_text)
         cleaned_text = uncleaned_text.strip()
 
         return cleaned_text
 
     def load_json_file(self, file_name):
+        """
+        Load data from a JSON file.
+
+        Args:
+            file_name (str): The name of the JSON file to load.
+
+        Returns:
+            dict: The data loaded from the JSON file.
+        """
         file_name = r"./static/data/" + file_name
         with open(file_name, "r") as f:
             json_data = json.load(f)
